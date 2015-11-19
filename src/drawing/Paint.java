@@ -36,6 +36,7 @@ public class Paint implements Observer{
 		clearButton.addActionListener(controller);
 
 	}
+	// methode run stats des elements du paint
 	public void run() {
 		frame = new JFrame("Paint");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
