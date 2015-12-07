@@ -17,6 +17,8 @@ public class Paint implements Observer{
 	private JButton circleButton;
 	private JButton rectangleButton;
 	private JButton Regroup;
+	private JButton undoButton;
+	private JButton redoButton;
 	//private JButton nbr;
 	private JPanel buttonPanel;
 	private JPanel mainPanel;
@@ -28,6 +30,8 @@ public class Paint implements Observer{
 	private JPanel BarreStatut;
 	private JButton DuplicateButton;
 	public Paint(Controleur controller) {
+		redoButton = new JButton("Redo");
+		undoButton = new JButton("Undo");
 		clearButton = new JButton("Clear");
 		circleButton = new JButton("Circle");
 		rectangleButton = new JButton("Rectangle");
@@ -57,7 +61,7 @@ public class Paint implements Observer{
 		BarreStatut.setLayout(new BoxLayout(BarreStatut, BoxLayout.X_AXIS));
 		Label1 = new JLabel("aucune ");
 		Label1.setHorizontalAlignment(SwingConstants.LEFT);
-		LabelCount = new JLabel(" forme dessinée ");
+		LabelCount = new JLabel(" forme dessinï¿½e ");
 		Label2 = new JLabel("0");
 		Label2.setHorizontalAlignment(SwingConstants.RIGHT);
 		drawing = new Drawing();
@@ -66,12 +70,14 @@ public class Paint implements Observer{
 		buttonPanel.add(clearButton);
 		buttonPanel.add(circleButton);
 		buttonPanel.add(rectangleButton);
-		buttonPanel.add(Regroup);
+		//buttonPanel.add(Regroup);
 		buttonPanel.add(DuplicateButton);
+		buttonPanel.add(undoButton);		
+		buttonPanel.add(redoButton);
 		BarreStatut.add(Label1);
 		BarreStatut.add(LabelCount);
 		BarreStatut.add(Label2);
-
+		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		mainPanel.add(drawing, BorderLayout.CENTER);
 
@@ -80,7 +86,9 @@ public class Paint implements Observer{
 		circleButton.addActionListener(new CircleButtonListener(drawing));
 		rectangleButton.addActionListener(new RectangleButtonListener(drawing));
 		DuplicateButton.addActionListener(new DuplicateButtonListner(drawing));
-
+		undoButton.addActionListener(new UndoListener(drawing));		
+		redoButton.addActionListener(new RedoListener(drawing));
+		
 		DrawingMouseListener l = new DrawingMouseListener(drawing);
 		drawing.addMouseListener(l);
 		drawing.addMouseMotionListener(l);

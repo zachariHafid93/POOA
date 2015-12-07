@@ -14,11 +14,16 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	int nbshape_selectioner = 0;
 	ArrayList<Shape> shapes;
 	ArrayList<Shape> shapeSelect ;
-
+	
+	ArrayList<Shape> undos;
+	ArrayList<Shape> redos;
+	
 	public Drawing(){
 		super();
 		shapes = new ArrayList<Shape>();
 		shapeSelect = new ArrayList<Shape>();
+		undos = new ArrayList<Shape>();
+		undos = new ArrayList<Shape>();
 	}
 	//methode pour ajouter des Observateurs a notre vecteur
 	public void addObserver(Observer obs){
@@ -54,8 +59,14 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	 */
 	public void addShape(Shape s){
 		shapes.add(s);
-		cpt++;
+		
+		undos.add(s);	
+		
+		
 		this.repaint();
+		//redos.clear();
+		cpt++;
+		
 		notifyObservers();
 	}
 	public void regroup_shape(Shape s){
@@ -94,9 +105,10 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	 * Enl�ve toutes les formes et redessine
 	 */
 
-	public void clear(){
-
+	public void clear() {
+	
 		shapes.clear();
+		shapeSelect.clear();
 		cpt=0;
 		this.repaint();
 		notifyObservers();
@@ -109,7 +121,30 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 			notifyObservers();
 		
 	}*/
-
+	
+	public void undo() {
+		if(undos.size() > 0) {
+			Shape s = undos.get(undos.size() - 1);
+			undos.remove(s);
+			undos.add(s);
+			shapes.remove(s);
+			this.repaint();
+			cpt--;
+			notifyObservers();
+		}
+	}
+	
+	public void redo() {
+		if(redos.size() > 0) {
+			Shape s = redos.get(redos.size() - 1);
+			redos.remove(s);
+			redos.add(s);
+			shapes.add(s);
+			this.repaint();
+			cpt++;
+			notifyObservers();
+		}
+	}
 	public void clearShapeselectedgroup(){
 		shapeSelect.clear();
 	}
