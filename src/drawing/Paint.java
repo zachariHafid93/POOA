@@ -11,7 +11,7 @@ import com.sun.xml.internal.ws.org.objectweb.asm.Label;
  * Classe Interface graphique pour l'application de dessin
  */
 public class Paint implements Observer{
-
+//
 	private JFrame frame;
 	private JButton clearButton;
 	private JButton circleButton;
