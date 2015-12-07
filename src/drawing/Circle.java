@@ -19,7 +19,13 @@ public class Circle extends Shape{
 		g.setColor(Color.BLACK);
 		g.drawOval((int)(origin.getX()-radius), (int)(origin.getY()-radius), (int)(2*radius), (int)(2*radius));
 	}
-	
+	public double getRadius(){
+		return radius;
+		}
+	public Color getColor(){
+		return color;
+		}
+
 	public boolean isOn(Point p) {
 		return distanceToCenter(p)<radius;		
 	}

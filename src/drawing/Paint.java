@@ -1,6 +1,8 @@
 package drawing;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import com.sun.xml.internal.ws.org.objectweb.asm.Label;
@@ -14,26 +16,32 @@ public class Paint implements Observer{
 	private JButton clearButton;
 	private JButton circleButton;
 	private JButton rectangleButton;
+	private JButton Regroup;
 	//private JButton nbr;
 	private JPanel buttonPanel;
 	private JPanel mainPanel;
 	private Drawing drawing;
 	//private JTextField counterFld;
 	private JLabel Label1;
+	private JLabel Label2;
 	private JLabel LabelCount;
 	private JPanel BarreStatut;
-	
+	private JButton DuplicateButton;
 	public Paint(Controleur controller) {
 		clearButton = new JButton("Clear");
 		circleButton = new JButton("Circle");
 		rectangleButton = new JButton("Rectangle");
+		Regroup = new JButton("Regroup");
 		Label1 = new JLabel();
 		LabelCount = new JLabel();
-
+		Label2= new JLabel();
+		DuplicateButton = new JButton("Dupliquer");
 		// listeners pour les boutons compteur
 		circleButton.addActionListener(controller);
 		rectangleButton.addActionListener(controller);
 		clearButton.addActionListener(controller);
+		Regroup.addActionListener(controller);
+		DuplicateButton.addActionListener(controller);
 
 	}
 	// methode run stats des elements du paint
@@ -50,26 +58,29 @@ public class Paint implements Observer{
 		Label1 = new JLabel("aucune ");
 		Label1.setHorizontalAlignment(SwingConstants.LEFT);
 		LabelCount = new JLabel(" forme dessinée ");
-
+		Label2 = new JLabel("0");
+		Label2.setHorizontalAlignment(SwingConstants.RIGHT);
 		drawing = new Drawing();
 		drawing.setBackground(Color.WHITE);
 		buttonPanel = new JPanel();
 		buttonPanel.add(clearButton);
 		buttonPanel.add(circleButton);
 		buttonPanel.add(rectangleButton);
-
+		buttonPanel.add(Regroup);
+		buttonPanel.add(DuplicateButton);
 		BarreStatut.add(Label1);
 		BarreStatut.add(LabelCount);
+		BarreStatut.add(Label2);
 
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		mainPanel.add(drawing, BorderLayout.CENTER);
 
-		
+
 		clearButton.addActionListener(new ClearButtonListener(drawing));
 		circleButton.addActionListener(new CircleButtonListener(drawing));
 		rectangleButton.addActionListener(new RectangleButtonListener(drawing));
+		DuplicateButton.addActionListener(new DuplicateButtonListner(drawing));
 
-		
 		DrawingMouseListener l = new DrawingMouseListener(drawing);
 		drawing.addMouseListener(l);
 		drawing.addMouseMotionListener(l);
@@ -80,14 +91,19 @@ public class Paint implements Observer{
 	}
 	public static Drawing Former = new Drawing();
 	public static Controleur Controler = new Controleur(Former);
+
 	public static void main(String[] args){
 		Paint lancer = new Paint(Controler);
 		Former.addObserver(lancer);
 		lancer.run();
 	}
-//modifier la valeur du label on lui affectant la valeur du compteur
+	//modifier la valeur du label on lui affectant la valeur du compteur
 	public void update(int value) {
 		Label1.setText(Integer.toString(value));
 	}
-	
+	public void updateSelectShape(int value){
+		Label2.setText(Integer.toString(value));
+
+	}
+
 }

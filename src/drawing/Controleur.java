@@ -22,6 +22,13 @@ public class Controleur implements ActionListener {
 			draw.addShape(sh);
 		} else if (e.getActionCommand() == "Clear") {
 			draw.clear();
+		}else if (e.getActionCommand() == "Regroup") {
+			draw.regroup_shape(sh);
 		}
+		else if(e.getActionCommand() == "Duplicate"){
+			//draw.Duplicate(sh);
+		}
+
+
 	}
 }
